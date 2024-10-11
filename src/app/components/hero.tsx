@@ -19,7 +19,7 @@ const Hero: React.FC = ({}) => {
       }, []);
       
     return (
-        <div>
+        <div className="flex flex-col min-h-screen justify-center items-center">
             <h1 className="text-7xl">{profile.name.toUpperCase()}</h1>
             <h2 className="text-xl font-extralight">{profile.subtitle}</h2>
             <Link 

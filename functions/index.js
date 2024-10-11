@@ -19,7 +19,7 @@ ffmpeg.setFfmpegPath(ffmpegStatic);
 // CORS handler
 const corsHandler = cors({origin: true});
 
-exports.generateGifThumbnail = functions.https.onRequest(async (req, res) => {
+exports.generateGifThumbnail = functions.runWith({timeoutSeconds: 300, memory: "1GB"}).https.onRequest(async (req, res) => {
   // Handle CORS
   corsHandler(req, res, async () => {
     if (req.method !== "POST") {

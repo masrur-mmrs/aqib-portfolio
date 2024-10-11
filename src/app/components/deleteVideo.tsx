@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { getVideoDocuments, deleteVideoDocument, deleteThumbnail } from '@/utils/firebaseUtils';
-import { Checkbox, Label, Button } from "flowbite-react";
-import { get } from 'http';
+import { Checkbox, Label, Button, Spinner } from "flowbite-react";
 
 interface Video {
     videoID: string;
@@ -14,6 +13,7 @@ interface Video {
 const DeleteVideo: React.FC = ({}) => {
     const [videoList, setvideoList] = useState<Video[]>([]);
     const [selectedVideos, setSelectedVideos] = useState<string[]>([]);
+    const [isUploading, setIsUploading] = useState<boolean>(false);
 
     useEffect(() => {
         getVideoDocuments().then((data) => {
@@ -22,6 +22,7 @@ const DeleteVideo: React.FC = ({}) => {
     }, []);
 
     const handleDelete = async () => {
+        setIsUploading(true);
         for (let i = 0; i < selectedVideos.length; i++) {
             const videoID = selectedVideos[i];
     
@@ -41,6 +42,7 @@ const DeleteVideo: React.FC = ({}) => {
                 console.error(`Video with ID ${videoID} not found!`);
             }
         }
+        setIsUploading(false);
     }
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,14 +59,17 @@ const DeleteVideo: React.FC = ({}) => {
             <h1>Select videos to delete</h1>
             {videoList.length === 0 && <p>No videos found</p>}
             {videoList.length > 0 && <ul className="p-5 grid grid-cols-1 my-5 gap-1 border-2 border-white rounded-md">
-                {videoList.map((video: any) => (
+                {videoList.map((video: Video) => (
                     <li key={video.videoID}>
-                        <Checkbox id={video.videoID} name={video} value={video.videoID} color="blue" onChange={handleCheckboxChange}/>
+                        <Checkbox id={video.videoID} name={video.videoID} value={video.videoID} color="blue" onChange={handleCheckboxChange}/>
                         <Label color='light' value={video.videoTitle.toUpperCase()} className="pl-3"/>
                     </li>
                 ))}
             </ul>}
-            <Button color="failure" onClick={handleDelete} disabled={selectedVideos.length === 0}>Delete</Button>
+            <Button color="failure" onClick={handleDelete} disabled={selectedVideos.length === 0}>
+            {isUploading && <Spinner aria-label="Spinner button example" size="sm" className="mr-3"/>}
+                Delete
+            </Button>
         </div>
     );
 };
