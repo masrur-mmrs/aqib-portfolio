@@ -1,3 +1,4 @@
+'use client';
 import { getProfileData } from '@/utils/firebaseUtils';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';

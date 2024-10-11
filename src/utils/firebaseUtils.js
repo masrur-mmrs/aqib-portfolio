@@ -1,4 +1,4 @@
-import { app } from '../index'
+import { app } from '../index.js'
 import { ref, uploadBytes, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import { getFirestore, doc, setDoc, getDoc, getDocs, collection, deleteDoc } from 'firebase/firestore'
 
