@@ -15,7 +15,6 @@ export const getProfileImage = async () => {
     const storage = getStorage(app);
     const profileImageRef = ref(storage, `ProfileImage/profileIMG`)
     const snapshot = await getDownloadURL(profileImageRef)
-    console.log("Downloaded profile image", snapshot)
     return snapshot;
 }
 

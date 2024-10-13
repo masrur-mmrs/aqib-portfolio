@@ -28,14 +28,19 @@ const VideoPage: FC<VideoPageProps> = ({ params }) => {
   return (
     <>
       <button className="p-3" onClick={() => router.back()}>◀ Back</button>
-      <div className="flex flex-col min-h-screen justify-center items-center min-w-max ">
-      {isHydrated && <h1 className='pb-0 sm:pb-5 text-5xl font-thin'>{videoTitle.toUpperCase()}</h1>}
-        {isHydrated && <ReactPlayer
-              url={videoURL}
-              width="100%"
-              controls
-              playing
-          />}
+      <div className="flex flex-col min-h-screen justify-center items-center w-[100%] h-[100%]">
+        {isHydrated && 
+          <div className="!w-[100%] !h-[100%]">
+            <ReactPlayer
+                className="object-cover"
+                url={videoURL}
+                width="100%"
+                controls
+                playing
+            />
+          </div>
+        }
+        {isHydrated && <h1 className='pb-0 sm:pt-5 text-5xl font-thin'>{videoTitle.toUpperCase()}</h1>}
       </div>
     </>
   );
