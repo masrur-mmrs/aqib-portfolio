@@ -53,7 +53,7 @@ export const getVideoDocuments = async () => {
     querySnapshot.forEach((doc) => {
         returnData.push(doc.data());
     });
-    return returnData
+    return returnData;
 }
 
 //Get thumbnail

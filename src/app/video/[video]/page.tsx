@@ -23,7 +23,7 @@ const VideoPage: FC<VideoPageProps> = ({ params }) => {
     getVideoTitle(video).then((data) => {
       setVideoTitle(data);
     })
-  }, []);
+  }, [setVideoURL, video]);
 
   return (
     <>
