@@ -3,8 +3,22 @@ import ProfileImageUpload from '../components/profileImageUpload';
 import ProfileData from '../components/profileData';
 import UploadVideo from '../components/uploadVideo';
 import DeleteVideo from '../components/deleteVideo';
+import { getProfileData } from '@/utils/firebaseUtils';
 
-const AdminPage: React.FC = ({}) => {
+interface UserData {
+    name: string;
+    subtitle: string;
+    description: string;
+}
+
+const getServerSideProps = async () => {
+    const profileData = await getProfileData();
+    return profileData as UserData;
+}
+
+const AdminPage: React.FC = async ({}) => {
+
+    const profileData = await getServerSideProps();
 
     return (
         <>
@@ -12,7 +26,7 @@ const AdminPage: React.FC = ({}) => {
             <div className="flex flex-row min-h-screen justify-center items-start gap-10">
                 <div>
                     <ProfileImageUpload/>
-                    <ProfileData/>
+                    <ProfileData profileData={profileData}/>
                 </div>
                 <UploadVideo/>
                 <DeleteVideo/>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FileInput, TextInput, Label, Button, Spinner } from "flowbite-react";
 import { createVideoDocument } from "@/utils/firebaseUtils";
 interface ThumbnailData {
@@ -45,7 +45,7 @@ const UploadVideo: React.FC = ({}) => {
     const handleUpload = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setIsUploading(true);
-        if (videoFile && video.videoTitle) {
+        if (videoFile && video.videoTitle !== "") {
             const formData = new FormData();
             formData.append('videoTitle', video.videoTitle);
             formData.append('startTime', thumbnailData.start_time);
@@ -101,20 +101,18 @@ const UploadVideo: React.FC = ({}) => {
             } catch (error) {
                 console.error('Error uploading video:', error);
             }
-
+            if (video.videoID !== "") {
+                await createVideoDocument(video);
+                console.log(video);
+            }
             setIsUploading(false);
+            alert("Video uploaded successfully ✅");
+            setVideoFile(null);
 
         } else {
             console.error("No video file selected");
         }
     }
-
-    useEffect(() => {
-        if (video.videoID !== "") {
-            createVideoDocument(video);
-            console.log(video);
-        }
-    }, [video]);
 
     return (
         <div className="flex flex-col gap-2 border-l-2 border-r-2 border-white px-10">
@@ -125,7 +123,7 @@ const UploadVideo: React.FC = ({}) => {
                 id="dropzone-file" 
                 onChange={handleFileChange}
                 accept="video/mp4,video/x-m4v,video/*"
-                color="gray"
+                color={videoFile!==null ? "info" : "gray"}
             />
             <Label color="light" htmlFor="title" value="Video title:" />
             <TextInput
@@ -134,6 +132,7 @@ const UploadVideo: React.FC = ({}) => {
                     sizing="md"
                     placeholder='Title*'
                     required
+                    value={video.videoTitle}
                     onChange={handleVideoChange}
                 />
             {videoFile!==null && <div>

@@ -1,7 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { TextInput, Textarea, Button } from "flowbite-react";
-import { updateProdileData, getProfileData } from '@/utils/firebaseUtils';
+import { updateProdileData } from '@/utils/firebaseUtils';
 
 interface UserData {
   name: string;
@@ -9,12 +9,12 @@ interface UserData {
   description: string;
 }
 
-const ProfileData: React.FC = () => {
-  const [userData, setUserData] = useState<UserData>({
-    name: '',
-    subtitle: '',
-    description: ''
-  });
+interface ProfileDataProps {
+  profileData: UserData;
+}
+
+const ProfileData: React.FC<ProfileDataProps> = ({profileData}) => {
+  const [userData, setUserData] = useState<UserData>(profileData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
@@ -31,16 +31,8 @@ const ProfileData: React.FC = () => {
     // Here you can add logic to send the data to your backend or perform other actions
   };
 
-  useEffect(() => {
-    getProfileData().then((data) => {
-      if (data) {
-        setUserData(data! as UserData);
-      }
-    });
-  }, []);
-
   return (
-    <form onSubmit={handleSubmit} className="flex max-w-md flex-col gap-4 pt-5">
+      <form onSubmit={handleSubmit} className="flex max-w-md flex-col gap-4 pt-5">
       <div>
         <TextInput
           id="name"
