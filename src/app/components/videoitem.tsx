@@ -16,7 +16,7 @@ const VideoItem: React.FC<videoitemProps> = ({ title, thumbnail, videoID }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    getThumbnail(thumbnail.toLowerCase()).then((thumbnailData) => {
+    getThumbnail(thumbnail).then((thumbnailData) => {
       setThumbnailData(thumbnailData);
       setLoaded(true);
     })
