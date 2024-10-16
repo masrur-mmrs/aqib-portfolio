@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React, { useState, useEffect } from "react";
 import { FileInput, Label, Button } from "flowbite-react";
 import { uploadProfileImage } from "@/utils/firebaseUtils";
@@ -50,7 +50,9 @@ const ProfileImageUpload = () => {
 
 
     return (
-    <div>
+    <form
+      onSubmit={handleUpload}
+      >
       <div className="mb-2 block">
         <Label color="light" htmlFor="file-upload" value="Upload profile image" />
       </div>
@@ -63,12 +65,12 @@ const ProfileImageUpload = () => {
       <Button 
         className="mt-4" 
         color="blue"
-        onClick={handleUpload} 
+        type="submit"
         disabled={!profileImage}
       >
         Upload Image
       </Button>
-    </div>
+    </form>
     );
 }
 

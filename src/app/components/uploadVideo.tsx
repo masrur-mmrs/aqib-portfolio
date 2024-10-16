@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React, { useState } from "react";
 import { FileInput, TextInput, Label, Button, Spinner } from "flowbite-react";
 import { createVideoDocument } from "@/utils/firebaseUtils";
@@ -42,7 +42,7 @@ const UploadVideo: React.FC = ({}) => {
         }));
     }
 
-    const handleUpload = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsUploading(true);
         if (videoFile && video.videoTitle !== "") {
@@ -67,11 +67,21 @@ const UploadVideo: React.FC = ({}) => {
               });
         
               const { upload_link, uri } = await response.json();
-              setVideo({
-                ...video,
-                videoID: uri.split('/videos/')[1],
-                videoURL: "https://vimeo.com/"+uri.split('/videos/')[1],
-              })
+              console.log(upload_link, uri);
+              setVideo(prevVideo => {
+                const updatedVideo = {
+                  ...prevVideo,
+                  videoID: uri.split('/videos/')[1],
+                  thumbnail: video.videoTitle.replaceAll(" ", "_")+"Thumbnail.gif",
+                  videoURL: "https://vimeo.com/"+uri.split('/videos/')[1],
+                };
+                if (updatedVideo.thumbnail !== "" && updatedVideo.videoID !== "" && updatedVideo.videoURL !== "") {
+                    createVideoDocument(updatedVideo).then(() => {
+                        console.log(updatedVideo);
+                      });
+                }
+                return updatedVideo;
+              });
         
               const vimeoFormData = new FormData();
               vimeoFormData.append('file_data', videoFile);
@@ -92,30 +102,32 @@ const UploadVideo: React.FC = ({}) => {
                 if (!response.ok) {
                     const errorData = await response.text();
                     console.error(`HTTP error! status: ${response.status}, body: ${errorData}`);
+                    alert("Error uploading video ❌");
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
     
                 const data = await response.text();
                 console.log('GIF creation response:', data);
-                setVideo(prevVideo => ({...prevVideo, thumbnail: data}));
+
+                alert("Video uploaded successfully ✅");
             } catch (error) {
                 console.error('Error uploading video:', error);
+                alert("Error uploading video ❌");
             }
-            if (video.videoID !== "") {
-                await createVideoDocument(video);
-                console.log(video);
-            }
-            setIsUploading(false);
-            alert("Video uploaded successfully ✅");
-            setVideoFile(null);
+            
 
         } else {
             console.error("No video file selected");
         }
+        setIsUploading(false);
+        setVideoFile(null);
     }
 
     return (
-        <div className="flex flex-col gap-2 border-l-2 border-r-2 border-white px-10">
+        <form
+        className="flex flex-col gap-2 border-l-2 border-r-2 border-white px-10"
+        onSubmit={handleUpload}
+        >
             <div className="mb-2 block">
                 <Label color="light" htmlFor="video" value="Upload Video" />
             </div>
@@ -125,6 +137,7 @@ const UploadVideo: React.FC = ({}) => {
                 accept="video/mp4,video/x-m4v,video/*"
                 color={videoFile!==null ? "info" : "gray"}
             />
+            {videoFile!==null && <div>
             <Label color="light" htmlFor="title" value="Video title:" />
             <TextInput
                     id="videoTitle"
@@ -135,7 +148,6 @@ const UploadVideo: React.FC = ({}) => {
                     value={video.videoTitle}
                     onChange={handleVideoChange}
                 />
-            {videoFile!==null && <div>
                 <Label color="light" htmlFor="start_time" value="Thumbnail start time:" />
                 <TextInput
                     id="start_time"
@@ -159,13 +171,13 @@ const UploadVideo: React.FC = ({}) => {
             <Button 
                 className="mt-4" 
                 color="blue"
-                onClick={(e: React.MouseEvent<HTMLButtonElement>)=>handleUpload(e)}
+                type="submit"
                 disabled={!videoFile}
             >
             {isUploading && <Spinner aria-label="Spinner button example" size="sm" className="mr-3"/>}
                 Upload Video
             </Button>
-        </div>
+        </form>
     );
 };
 

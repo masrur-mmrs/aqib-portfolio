@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import React, { useState } from 'react';
 import { TextInput, Textarea, Button } from "flowbite-react";
 import { updateProdileData } from '@/utils/firebaseUtils';
@@ -28,12 +28,10 @@ const ProfileData: React.FC<ProfileDataProps> = ({profileData}) => {
     e.preventDefault();
     console.log('Submitted user data:', userData);
     updateProdileData(userData);
-    // Here you can add logic to send the data to your backend or perform other actions
   };
 
   return (
       <form onSubmit={handleSubmit} className="flex max-w-md flex-col gap-4 pt-5">
-      <div>
         <TextInput
           id="name"
           type="text"
@@ -42,8 +40,6 @@ const ProfileData: React.FC<ProfileDataProps> = ({profileData}) => {
           value={userData.name}
           onChange={handleChange}
         />
-      </div>
-      <div>
         <TextInput
           id="subtitle"
           type="text"
@@ -52,8 +48,6 @@ const ProfileData: React.FC<ProfileDataProps> = ({profileData}) => {
           value={userData.subtitle}
           onChange={handleChange}
         />
-      </div>
-      <div>
         <Textarea
           id="description"
           placeholder='Description'
@@ -61,7 +55,6 @@ const ProfileData: React.FC<ProfileDataProps> = ({profileData}) => {
           value={userData.description}
           onChange={handleChange}
         />
-      </div>
       <Button type="submit" color='blue'>Submit</Button>
     </form>
   );

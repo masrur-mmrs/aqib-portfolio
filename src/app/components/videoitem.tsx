@@ -33,7 +33,7 @@ const VideoItem: React.FC<videoitemProps> = ({ title, thumbnail, videoID }) => {
           unoptimized
         />:<VideoItemSkeleton/>}
       <h2 className="absolute inset-0 flex justify-center items-center text-transparent hover:text-white text-xl font-bold hover:bg-black hover:bg-opacity-50">
-        {title}
+        {title.toUpperCase()}
       </h2>
     </Link>
   );

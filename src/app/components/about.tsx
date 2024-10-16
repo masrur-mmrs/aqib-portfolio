@@ -20,6 +20,7 @@ const About: React.FC = async () => {
         <AboutWrapper>
         <ProfileImageWrapper>
             <Image
+                priority
                 src={profileImage}
                 alt="Profile Image"
                 width={4000}

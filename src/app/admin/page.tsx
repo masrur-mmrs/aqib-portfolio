@@ -1,39 +1,39 @@
 import React from 'react';
+import { getProfileData, getVideoDocuments } from '@/utils/firebaseUtils';
+import AuthProviderWrapper from '../components/wrapper/authProviderWrapper';
 import ProfileImageUpload from '../components/profileImageUpload';
 import ProfileData from '../components/profileData';
 import UploadVideo from '../components/uploadVideo';
 import DeleteVideo from '../components/deleteVideo';
-import { getProfileData } from '@/utils/firebaseUtils';
 
 interface UserData {
-    name: string;
-    subtitle: string;
-    description: string;
+  name: string;
+  subtitle: string;
+  description: string;
 }
 
-const getServerSideProps = async () => {
-    const profileData = await getProfileData();
-    return profileData as UserData;
+async function getData() {
+  const profileData = await getProfileData();
+  const videoDocuments = await getVideoDocuments();
+  return { profileData, videoDocuments };
 }
 
-const AdminPage: React.FC = async ({}) => {
+export default async function AdminPage() {
+  const { profileData, videoDocuments } = await getData();
 
-    const profileData = await getServerSideProps();
-
-    return (
-        <>
-            <h1 className="w-full text-7xl text-center py-5">Admin Pannel</h1> 
+  return (
+    <>
+        <AuthProviderWrapper>
+            <h1 className="text-7xl text-center my-5">My Dashboard</h1>
             <div className="flex flex-row min-h-screen justify-center items-start gap-10">
-                <div>
-                    <ProfileImageUpload/>
-                    <ProfileData profileData={profileData}/>
-                </div>
-                <UploadVideo/>
-                <DeleteVideo/>
+            <div>
+                <ProfileImageUpload />
+                <ProfileData profileData={profileData as UserData} />
             </div>
-        </>
-    );
-};
-
-
-export default AdminPage;
+            <UploadVideo />
+            <DeleteVideo videoDocuments={videoDocuments} />
+            </div>
+        </AuthProviderWrapper>
+    </>
+  );
+}
