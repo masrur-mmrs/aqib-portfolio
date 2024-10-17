@@ -6,12 +6,6 @@ import HeroNameWrapper from './wrapper/heroNameWrapper';
 import HeroSubtitleWrapper from './wrapper/heroSubtitleWrapper';
 import HeroLinkWrapper from './wrapper/heroLinkWrapper';
 
-interface UserData {
-  name: string;
-  subtitle: string;
-  description: string;
-}
-
 const getServerSideProps = async () => {
   const userData = await getProfileData();
   return userData as UserData;

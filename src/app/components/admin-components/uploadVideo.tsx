@@ -2,17 +2,6 @@
 import React, { useState } from "react";
 import { FileInput, TextInput, Label, Button, Spinner } from "flowbite-react";
 import { createVideoDocument } from "@/utils/firebaseUtils";
-interface ThumbnailData {
-    start_time: string;
-    duration: string;
-}
-
-interface Video {
-    videoID: string;
-    videoTitle: string;
-    thumbnail: string;
-    videoURL: string;
-}
 
 const UploadVideo: React.FC = ({}) => {
     const [videoFile, setVideoFile] = useState<File | null>(null);

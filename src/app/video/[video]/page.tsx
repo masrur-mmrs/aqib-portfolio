@@ -1,6 +1,7 @@
 'use client';
 import React, { FC, useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
+import CustomFooter from '../../components/customFooter';
 import { getVideoTitle } from '@/utils/firebaseUtils';
 import { useRouter } from 'next/navigation';
 
@@ -42,6 +43,7 @@ const VideoPage: FC<VideoPageProps> = ({ params }) => {
         }
         {isHydrated && <h1 className='pb-0 sm:pt-5 text-5xl font-thin'>{videoTitle.toUpperCase()}</h1>}
       </div>
+      <CustomFooter />
     </>
   );
 };

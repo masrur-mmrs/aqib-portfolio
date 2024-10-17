@@ -1,25 +1,21 @@
 import React from 'react';
-import { getProfileData, getVideoDocuments } from '@/utils/firebaseUtils';
+import { getProfileData, getVideoDocuments, getSocialMediaLinks } from '@/utils/firebaseUtils';
 import AuthProviderWrapper from '../components/wrapper/authProviderWrapper';
-import ProfileImageUpload from '../components/profileImageUpload';
+import ProfileImageUpload from '../components/admin-components/profileImageUpload';
 import ProfileData from '../components/profileData';
-import UploadVideo from '../components/uploadVideo';
-import DeleteVideo from '../components/deleteVideo';
-
-interface UserData {
-  name: string;
-  subtitle: string;
-  description: string;
-}
+import UploadVideo from '../components/admin-components/uploadVideo';
+import DeleteVideo from '../components/admin-components/deleteVideo';
+import UpdateSocials from '../components/admin-components/updateSocials';
 
 async function getData() {
   const profileData = await getProfileData();
   const videoDocuments = await getVideoDocuments();
-  return { profileData, videoDocuments };
+  const socialLinks = await getSocialMediaLinks();
+  return { profileData, videoDocuments, socialLinks };
 }
 
 export default async function AdminPage() {
-  const { profileData, videoDocuments } = await getData();
+  const { profileData, videoDocuments, socialLinks } = await getData();
 
   return (
     <>
@@ -31,6 +27,7 @@ export default async function AdminPage() {
                 <ProfileData profileData={profileData as UserData} />
             </div>
             <UploadVideo />
+            <UpdateSocials socialLinks={socialLinks as Socials} />
             <DeleteVideo videoDocuments={videoDocuments} />
             </div>
         </AuthProviderWrapper>

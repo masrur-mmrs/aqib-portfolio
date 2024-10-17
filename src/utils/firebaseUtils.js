@@ -88,3 +88,22 @@ export const deleteThumbnail = async (thumbnail) => {
     const thumbnailRef = ref(storage, `thumbnails/${thumbnail}`)
     await deleteObject(thumbnailRef)
 }
+
+//Update social media links data
+export const updateSocialMediaLinks = async (data) => {
+    const db = getFirestore(app);
+    const userRef = doc(db, "user", "socials");
+    await setDoc(userRef, data, { merge: true })
+}
+
+//Get social media links
+export const getSocialMediaLinks = async () => {
+    const db = getFirestore(app);
+    const userRef = doc(db, "user", "socials");
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        console.log("No such document!");
+    }
+}

@@ -3,12 +3,6 @@ import React, { useState } from 'react';
 import { TextInput, Textarea, Button } from "flowbite-react";
 import { updateProdileData } from '@/utils/firebaseUtils';
 
-interface UserData {
-  name: string;
-  subtitle: string;
-  description: string;
-}
-
 interface ProfileDataProps {
   profileData: UserData;
 }
