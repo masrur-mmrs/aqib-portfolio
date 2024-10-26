@@ -1,30 +1,31 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import { FileInput, Label, Button } from "flowbite-react";
-import { uploadProfileImage } from "@/utils/firebaseUtils";
+import { uploadLogo } from "@/utils/firebaseUtils";
 
-const ProfileImageUpload = () => {
-    const [profileImage, setProfileImage] = useState<File | null>(null);
+const LogoUpload = () => {
+    const [logo, setLogo] = useState<File | null>(null);
     const [imageUploadStatus, setImageUploadStatus] = useState<boolean | null>(null);
 
     useEffect(() => {
         setTimeout(() => {
-            setProfileImage(null);
+            setLogo(null);
             setImageUploadStatus(null);
         }, 5000);
     }, [imageUploadStatus]);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
-          setProfileImage(event.target.files[0]);
+            setLogo(event.target.files[0]);
         }
       };
 
-    const handleUpload = () => {
-        if (profileImage) {
+    const handleUpload = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (logo) {
             try {
-            uploadProfileImage(profileImage);
-            console.log("Profile image uploaded successfully");
+            uploadLogo(logo);
+            console.log("Logo uploaded successfully");
             setImageUploadStatus(true);
             } catch (error) {
             console.error("Error uploading profile image:", error);
@@ -51,7 +52,7 @@ const ProfileImageUpload = () => {
       onSubmit={handleUpload}
       >
       <div className="mb-2 block">
-        <Label color="light" htmlFor="file-upload" value="Upload profile image" />
+        <Label color="light" htmlFor="file-upload" value="Upload footer logo" />
       </div>
       <FileInput 
         id="file-upload" 
@@ -63,12 +64,12 @@ const ProfileImageUpload = () => {
         className="mt-4" 
         color="blue"
         type="submit"
-        disabled={!profileImage}
+        disabled={!logo}
       >
-        Upload Image
+        Upload Logo
       </Button>
     </form>
     );
 }
 
-export default ProfileImageUpload
+export default LogoUpload

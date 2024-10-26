@@ -107,3 +107,19 @@ export const getSocialMediaLinks = async () => {
         console.log("No such document!");
     }
 }
+
+//Upload logo
+export const uploadLogo = async (logo) => {
+    const storage = getStorage(app);
+    const logoRef = ref(storage, `logo/logoIMG`)
+    const snapshot = await uploadBytes(logoRef, logo)
+    console.log("Uploaded logo", snapshot)
+}
+
+//Get logo
+export const getLogo = async () => {
+    const storage = getStorage(app);
+    const logoRef = ref(storage, `logo/logoIMG`)
+    const snapshot = await getDownloadURL(logoRef)
+    return snapshot;
+}

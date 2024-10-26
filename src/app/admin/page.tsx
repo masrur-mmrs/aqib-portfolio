@@ -6,6 +6,7 @@ import ProfileData from '../components/profileData';
 import UploadVideo from '../components/admin-components/uploadVideo';
 import DeleteVideo from '../components/admin-components/deleteVideo';
 import UpdateSocials from '../components/admin-components/updateSocials';
+import LogoUpload from '../components/admin-components/logoUpload';
 
 async function getData() {
   const profileData = await getProfileData();
@@ -24,6 +25,7 @@ export default async function AdminPage() {
             <div className="flex flex-row min-h-screen justify-center items-start gap-10">
             <div>
                 <ProfileImageUpload />
+                <LogoUpload/>
                 <ProfileData profileData={profileData as UserData} />
             </div>
             <UploadVideo />

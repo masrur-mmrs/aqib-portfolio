@@ -10,13 +10,7 @@ import {
     FooterTitle,
   } from "flowbite-react";
   import { BsVimeo, BsFacebook, BsYoutube, BsInstagram, BsTwitter } from "react-icons/bs";
-import { getSocialMediaLinks, getProfileData } from '@/utils/firebaseUtils';
-
-const getServerSideProps = async () => {
-    const socials = await getSocialMediaLinks() as Socials;
-    const profileData = await getProfileData();
-    return {socials, profileData};
-}
+import { getSocialMediaLinks, getProfileData, getLogo } from '@/utils/firebaseUtils';
 
 const getIcon = (key: string) => {
     switch (key) {
@@ -36,7 +30,10 @@ const getIcon = (key: string) => {
 }
 
 const CustomFooter: React.FC = async ({}) => {
-    const {socials, profileData} = await getServerSideProps();
+    const socials = await getSocialMediaLinks() as Socials;
+    const profileData = await getProfileData();
+    const logo = await getLogo();
+
     return (
     <Footer container className="bg-[--background] mt-5">
       <div className="w-full text-[--foreground]">
@@ -44,7 +41,7 @@ const CustomFooter: React.FC = async ({}) => {
           <div>
             <FooterBrand
               href="/"
-              src="https://firebasestorage.googleapis.com/v0/b/aqib-portfolio-c8593.appspot.com/o/logo%2Fyoutube-logo-2431.svg?alt=media&token=2404c89c-1cb1-43de-8a4f-bf3e80e00e6d"
+              src={logo}
               alt="Logo"
               name={profileData?.name.toUpperCase()}
             />
