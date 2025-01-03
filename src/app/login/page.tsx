@@ -1,15 +1,16 @@
 'use client';
 
-import * as React from 'react';
+import  React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { Button, TextInput } from 'flowbite-react';
 import { app } from '@/index';
 
-export default function LoginPage() {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [loginMessage, setLoginMessage] = React.useState('');
+const LoginPage: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loginMessage, setLoginMessage] = useState<string>('');
+  
   const router = useRouter();
 
   async function handleSubmit(event: React.FormEvent) {
@@ -72,3 +73,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+export default LoginPage;

@@ -7,7 +7,6 @@ export async function POST(request: Request) {
   try {
     const { size } = await request.json();
 
-    // Step 1: Create the video on Vimeo
     const vimeoResponse = await axios.post(
       'https://api.vimeo.com/me/videos',
       {
@@ -28,8 +27,6 @@ export async function POST(request: Request) {
     const { upload_link } = vimeoResponse.data.upload;
     const { uri } = vimeoResponse.data;
     
-
-    // Return the upload link and form HTML to the client
     return NextResponse.json({ upload_link, uri });
   } catch (error) {
     console.error('Error creating Vimeo video:', error);

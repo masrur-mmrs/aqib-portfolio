@@ -1,4 +1,4 @@
-import CustomFooter from "@/app/components/customFooter"
+import CustomFooter from "../../components/customFooter"
 const VideoLayout = ({
     children,
   }: {
