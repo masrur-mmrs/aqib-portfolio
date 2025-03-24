@@ -1,6 +1,6 @@
 'use client';
  
-import * as React from 'react';
+import React from 'react';
 import {AuthContext, User} from './AuthContext';
  
 export interface AuthProviderProps {
@@ -14,9 +14,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
 }) => {
   return (
     <AuthContext.Provider
-      value={{
-        user
-      }}
+      value={{user}}
     >
       {children}
     </AuthContext.Provider>

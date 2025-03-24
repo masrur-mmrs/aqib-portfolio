@@ -1,21 +1,18 @@
 import React from 'react';
 import Image from 'next/image';
-import { getProfileData, getProfileImage } from '@/utils/firebaseUtils';
+
 import AboutWrapper from './wrapper/aboutWrapper';
 import ProfileImageWrapper from './wrapper/profileImageWrapper';
 import AboutNameWrapper from './wrapper/aboutNameWrapper';
 import AboutSubtitleWrapper from './wrapper/aboutSubtitleWrapper';
 import AboutDescriptionWrapper from './wrapper/aboutDescriptionWrapper';
 
-const getServerSideProps = async () => {
-    const profileData = await getProfileData();
-    const profileImage = await getProfileImage();
-    return { profileData, profileImage };
+interface AboutProps {
+    profileData: UserData,
+    profileImage: string
 }
 
-const About: React.FC = async () => {
-    const { profileData, profileImage } = await getServerSideProps()
-
+const About: React.FC<AboutProps> = async ({ profileData, profileImage }) => {
     return (
         <AboutWrapper>
         <ProfileImageWrapper>

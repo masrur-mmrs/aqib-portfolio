@@ -1,3 +1,5 @@
+import QueryProvider from "../components/wrapper/queryProvider";
+
 export default async function RootLayout({
   children,
 }: {
@@ -9,7 +11,9 @@ export default async function RootLayout({
     <html lang="en">
       <head />
       <body>
-            {children}
+        <QueryProvider>
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,11 +1,20 @@
 import React from 'react';
 import About from '../components/about';
+import { getProfileData, getProfileImage } from '@/utils/firebaseUtils';
 
+export const dynamic = "force-dynamic"
 
-const AboutPage: React.FC = ({}) => {
+const getServerSideProps = async () => {
+    const profileData = await getProfileData();
+    const profileImage = await getProfileImage();
+    return { profileData, profileImage };
+}
+
+const AboutPage: React.FC = async () => {
+    const { profileData, profileImage } = await getServerSideProps()
     return (
         <>
-            <About/>
+            <About profileData={profileData as UserData} profileImage={profileImage} />
         </>
     );
 };

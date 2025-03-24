@@ -58,8 +58,8 @@ export const getVideoDocuments = async () => {
 //Get thumbnail
 export const getThumbnail = async (thumbnail) => {
     const storage = getStorage(app);
-    const thumbnailRef = ref(storage, `thumbnails/${thumbnail}`)
-    const snapshot = await getDownloadURL(thumbnailRef)
+    const thumbnailRef = ref(storage, `thumbnails/${thumbnail}`);
+    const snapshot = await getDownloadURL(thumbnailRef);
     return snapshot;
 }
 

@@ -8,6 +8,8 @@ import DeleteVideo from '../components/admin-components/deleteVideo';
 import UpdateSocials from '../components/admin-components/updateSocials';
 import LogoUpload from '../components/admin-components/logoUpload';
 
+export const dynamic = "force-dynamic"
+
 async function getData() {
   const profileData = await getProfileData();
   const videoDocuments = await getVideoDocuments();

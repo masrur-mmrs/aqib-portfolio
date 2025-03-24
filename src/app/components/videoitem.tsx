@@ -1,9 +1,10 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getThumbnail } from '@/utils/firebaseUtils';
 import VideoItemSkeleton from './videoItemSkeleton';
+import { useQuery } from '@tanstack/react-query';
+import { fetchThumbnail } from '@/utils/fetchHelper';
 
 interface videoitemProps {
   title: string;
@@ -12,26 +13,25 @@ interface videoitemProps {
 }
 
 const VideoItem: React.FC<videoitemProps> = ({ title, thumbnail, videoID }) => {
-  const [thumbnailData, setThumbnailData] = useState<string>('');
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const { data: thumbnailData, isLoading } = useQuery({
+    queryKey: ["thumbnail", {thumbnail}],
+    queryFn: () => fetchThumbnail(thumbnail),
+    staleTime: 10 * 60 * 60 * 24,
+  })
 
-  useEffect(() => {
-    getThumbnail(thumbnail).then((thumbnailData) => {
-      setThumbnailData(thumbnailData);
-      setLoaded(true);
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (isLoading) {
+    return <VideoItemSkeleton />;
+  }
 
   return (
     <Link href={`/video/${videoID}`} className="block">
-        {loaded?<Image
-          src={thumbnailData}
+        <Image
+          src={thumbnailData!}
           alt={title}
           width={1000}
           height={700}
           unoptimized
-        />:<VideoItemSkeleton/>}
+        />
       <h2 className="absolute inset-0 flex justify-center items-center text-transparent hover:text-white text-xl font-bold hover:bg-black hover:bg-opacity-50">
         {title.toUpperCase()}
       </h2>
