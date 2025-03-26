@@ -1,14 +1,16 @@
 import React from 'react';
-import Videolist from '../components/videolist';
+import VideoList from '../components/videoList';
+import { getVideoDocuments } from '@/utils/firebaseUtils';
 
+export const dynamic = "force-dynamic";
 
-const WorkPage: React.FC = ({}) => {
+const WorkPage = async () => {
+    const videos: Video[] = await getVideoDocuments();
     return (
         <>
-            <Videolist/>
+            <VideoList videos={videos}/>
         </>
     );
-};
-
+}
 
 export default WorkPage;

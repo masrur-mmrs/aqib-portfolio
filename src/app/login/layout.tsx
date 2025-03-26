@@ -12,9 +12,7 @@ export default async function RootLayout({
       <head />
       <body>
         <QueryProvider>
-          <main>
             {children}
-          </main>
         </QueryProvider>
       </body>
     </html>

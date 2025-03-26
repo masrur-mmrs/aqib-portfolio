@@ -1,10 +1,10 @@
-import { getProfileData } from '@/utils/firebaseUtils';
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
 import HeroWrapper from './wrapper/heroWrapper';
 import HeroNameWrapper from './wrapper/heroNameWrapper';
 import HeroSubtitleWrapper from './wrapper/heroSubtitleWrapper';
 import HeroLinkWrapper from './wrapper/heroLinkWrapper';
+import { getProfileData } from '@/utils/firebaseUtils';
 
 const getServerSideProps = async () => {
   const userData = await getProfileData();

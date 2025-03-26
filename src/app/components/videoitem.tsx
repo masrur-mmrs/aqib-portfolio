@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import VideoItemSkeleton from './videoItemSkeleton';
 import { useQuery } from '@tanstack/react-query';
-import { fetchThumbnail } from '@/utils/fetchHelper';
+import { getThumbnail } from '@/utils/firebaseUtils';
 
 interface videoitemProps {
   title: string;
@@ -15,7 +15,7 @@ interface videoitemProps {
 const VideoItem: React.FC<videoitemProps> = ({ title, thumbnail, videoID }) => {
   const { data: thumbnailData, isLoading } = useQuery({
     queryKey: ["thumbnail", {thumbnail}],
-    queryFn: () => fetchThumbnail(thumbnail),
+    queryFn: () => getThumbnail(thumbnail),
     staleTime: 10 * 60 * 60 * 24,
   })
 

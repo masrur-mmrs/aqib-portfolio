@@ -1,14 +1,11 @@
-'use client'
 import React from 'react';
-import VideoItem from './videoitem';
-import { fetchVideoData } from '@/utils/fetchHelper';
-import { useQuery } from '@tanstack/react-query';
+import VideoItem from './videoItem';
 
-const Videolist: React.FC = () => {
-  const {data: videos} = useQuery({
-    queryKey: ["videos"],
-    queryFn: fetchVideoData,
-  })
+interface VideoListProps {
+  videos: Video[];
+}
+
+const VideoList: React.FC <VideoListProps> = ({ videos }) => {
 
   return (
       <ul className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -25,4 +22,4 @@ const Videolist: React.FC = () => {
   );
 };
 
-export default Videolist;
+export default VideoList;

@@ -1,7 +1,8 @@
 'use client'
 import React, { useState } from 'react';
-import { getVideoDocuments, deleteVideoDocument, deleteThumbnail } from '@/utils/firebaseUtils';
 import { Checkbox, Label, Button, Spinner } from "flowbite-react";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getVideoDocuments, deleteVideoDocument, deleteThumbnail } from '@/utils/firebaseUtils';
 
 interface Video {
     videoID: string;
@@ -11,25 +12,28 @@ interface Video {
 }
 
 interface DeleteVideoProps {
-    videoDocuments: Video[];
+    initailVideoDocuments: Video[];
 }
 
-const DeleteVideo: React.FC<DeleteVideoProps> = ({videoDocuments}) => {
+const DeleteVideo: React.FC<DeleteVideoProps> = ({initailVideoDocuments}) => {
+    const queryClient = useQueryClient();
+    const { data: videoDocuments, isLoading } = useQuery({
+        queryKey: ["videoDocuments"],
+        queryFn: getVideoDocuments,
+        initialData: initailVideoDocuments
+    }) as { data: Video[], isLoading: boolean };
+
     const [videoList, setvideoList] = useState<Video[]>(videoDocuments);
     const [selectedVideos, setSelectedVideos] = useState<string[]>([]);
-    const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-    const handleDelete = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsDeleting(true);
+    const deleteVideo = async () => {
         for (let i = 0; i < selectedVideos.length; i++) {
             const videoID = selectedVideos[i];
     
-            // Find the video in the videoList by matching the videoID
             const video = videoList.find((v) => v.videoID === videoID);
     
             if (video) {
-                const { thumbnail } = video; // Extract the thumbnail
+                const { thumbnail } = video;
                 console.log(`Deleting thumbnail: ${thumbnail}`);
                 await deleteThumbnail(thumbnail);
                 console.log(`Deleting video with ID: ${videoID}`);
@@ -41,7 +45,16 @@ const DeleteVideo: React.FC<DeleteVideoProps> = ({videoDocuments}) => {
                 console.error(`Video with ID ${videoID} not found!`);
             }
         }
-        setIsDeleting(false);
+    }
+
+    const mutation = useMutation({
+        mutationFn: deleteVideo,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["videoDocuments"]})
+    })
+
+    const handleDelete = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        mutation.mutate();
     }
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +65,8 @@ const DeleteVideo: React.FC<DeleteVideoProps> = ({videoDocuments}) => {
             setSelectedVideos(selectedVideos.filter((id) => id !== value));
         }
     };
+
+    if (isLoading) return <Spinner size="lg" color="blue"/>
 
     return (
         <form
@@ -70,9 +85,9 @@ const DeleteVideo: React.FC<DeleteVideoProps> = ({videoDocuments}) => {
             <Button 
                 type="submit" 
                 color="failure" 
-                disabled={selectedVideos.length === 0}
+                disabled={ selectedVideos.length === 0 || mutation.isPending }
             >
-            {isDeleting && <Spinner aria-label="Spinner button example" size="sm" className="mr-3"/>}
+            {mutation.isPending && <Spinner aria-label="Spinner button example" size="sm" className="mr-3"/>}
                 Delete
             </Button>
         </form>

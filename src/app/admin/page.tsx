@@ -10,7 +10,7 @@ import LogoUpload from '../components/admin-components/logoUpload';
 
 export const dynamic = "force-dynamic"
 
-async function getData() {
+async function getServerSideProps() {
   const profileData = await getProfileData();
   const videoDocuments = await getVideoDocuments();
   const socialLinks = await getSocialMediaLinks();
@@ -18,23 +18,23 @@ async function getData() {
 }
 
 export default async function AdminPage() {
-  const { profileData, videoDocuments, socialLinks } = await getData();
+  const { profileData, videoDocuments, socialLinks } = await getServerSideProps();
 
   return (
     <>
-        <AuthProviderWrapper>
-            <h1 className="text-7xl text-center my-5">My Dashboard</h1>
-            <div className="flex flex-row min-h-screen justify-center items-start gap-10">
-            <div>
-                <ProfileImageUpload />
-                <LogoUpload/>
-                <ProfileData profileData={profileData as UserData} />
-            </div>
-            <UploadVideo />
-            <UpdateSocials socialLinks={socialLinks as Socials} />
-            <DeleteVideo videoDocuments={videoDocuments} />
-            </div>
-        </AuthProviderWrapper>
+      <AuthProviderWrapper>
+          <h1 className="text-7xl text-center my-5">My Dashboard</h1>
+          <div className="flex flex-row min-h-screen justify-center items-start gap-10">
+          <div>
+              <ProfileImageUpload />
+              <LogoUpload/>
+              <ProfileData initialProfileData={profileData as UserData} />
+          </div>
+          <UploadVideo />
+          <UpdateSocials initialSocialLinks={socialLinks as Socials} />
+          <DeleteVideo initailVideoDocuments={videoDocuments} />
+          </div>
+      </AuthProviderWrapper>
     </>
   );
 }
