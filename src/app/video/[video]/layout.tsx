@@ -5,12 +5,10 @@ const VideoLayout = ({
     children: React.ReactNode
   }) => {
     return (
-      <html lang="en">
-        <body>
+        <>
           {children}
           <CustomFooter />
-        </body>
-      </html>
+        </>
     )
   }
 

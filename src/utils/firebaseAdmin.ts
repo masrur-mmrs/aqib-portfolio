@@ -1,4 +1,3 @@
-// lib/firebase-admin.ts
 import * as admin from 'firebase-admin';
 
 export function initFirebase() {

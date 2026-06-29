@@ -6,11 +6,8 @@ export const dynamic = "force-dynamic";
 
 const WorkPage = async () => {
     const videos: Video[] = await getVideoDocuments();
-    return (
-        <>
-            <VideoList videos={videos}/>
-        </>
-    );
+    
+    return (<VideoList videos={videos}/>);
 }
 
 export default WorkPage;

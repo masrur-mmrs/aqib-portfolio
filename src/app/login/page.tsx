@@ -1,38 +1,35 @@
-'use client';
+"use client";
 
-import  React, { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
-import { Button, TextInput } from 'flowbite-react';
-import { app } from '@/index';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { Button, TextInput } from "flowbite-react";
+import { app } from "@/index";
 
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [loginMessage, setLoginMessage] = useState<string>('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginMessage, setLoginMessage] = useState("");
 
   const handleLogin = async () => {
     const auth = getAuth(app);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const idToken = await userCredential.user.getIdToken();
-    
-    const response = await axios.post("/api/login",  {}, {
-      headers: {
-        'Authorization': `Bearer ${idToken}`,
-        'Content-Type': 'application/json'
-      }
-    });
 
-    if (response.status === 200) {
-      router.refresh();
-    } else {
-      const errorData = await response.data;
-      setLoginMessage(`Login failed: ${errorData.error || 'Unknown error'}`);
-    }
-    }
+    await axios.post(
+      "/api/login",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
 
   const mutation = useMutation({
     mutationFn: handleLogin,
@@ -40,22 +37,21 @@ const LoginPage: React.FC = () => {
       router.refresh();
     },
     onError: (error) => {
-      console.error('Login error:', error);
-      setLoginMessage('Login failed. Please check your credentials.');
-    }
-  })
-  
+      console.error("Login error:", error);
+      setLoginMessage("Login failed. Please check your credentials.");
+    },
+  });
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setLoginMessage('');
+    setLoginMessage("");
     mutation.mutate();
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center">
       {mutation.isPending && <p>Logging in...</p>}
-      {mutation.isSuccess && <p>Logged in! Redirecting, please wait.</p>}
+      {mutation.isSuccess && <p>Logged in! Redirecting…</p>}
       <form onSubmit={handleSubmit}>
         <TextInput
           required

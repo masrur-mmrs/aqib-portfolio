@@ -1,22 +1,16 @@
+import { requireAuth } from "@/lib/auth";
 import QueryProvider from "../components/wrapper/queryProvider";
 
-export default async function RootLayout({
+export default async function AdminLayout({
   children,
 }: {
-  children: JSX.Element
+  children: React.ReactNode;
 }) {
-  
- 
+  await requireAuth();
+
   return (
-    <html lang="en">
-      <head />
-      <body>
-        <QueryProvider>
-          <main>
-            {children}
-          </main>
-        </QueryProvider>
-      </body>
-    </html>
+    <QueryProvider>
+      {children}
+    </QueryProvider>
   );
 }

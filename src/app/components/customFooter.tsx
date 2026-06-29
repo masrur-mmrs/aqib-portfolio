@@ -57,13 +57,17 @@ const CustomFooter: React.FC = async ({}) => {
             <div>
               <FooterTitle title="Follow Me" />
               <FooterLinkGroup col>
-            {Object.entries(socials).map(([key, value]) => 
-              value !== '' && (key === 'instagram' || key === 'facebook' || key === 'twitter') && (
-                <li key={key}>
-                  <FooterLink href="#">{key}</FooterLink>
-                </li>
-              )
-            )}
+                  {Object.entries(socials).map(([key, value]) => 
+                    value !== '' && (key === 'instagram' || key === 'facebook' || key === 'twitter') && (
+                      <FooterLink 
+                        key={key}
+                        target="_blank"
+                        href={value.length > 0 ? value : '#'}
+                      >
+                        {key[0].toUpperCase() + key.slice(1, key.length)}
+                      </FooterLink>
+                    )
+                  )}
               </FooterLinkGroup>
             </div>
           </div>

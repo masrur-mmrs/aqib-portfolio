@@ -8,8 +8,7 @@ export default function WorkLayout({
     children: React.ReactNode
   }) {
     return (
-      <html lang="en">
-        <body>
+        <>
           <QueryProvider>
             <section className="flex flex-col min-h-screen items-center pt-10">
               <Navbar/>
@@ -17,7 +16,6 @@ export default function WorkLayout({
             </section>
             <CustomFooter/>
           </QueryProvider>
-        </body>
-      </html>
+        </>
     )
   }

@@ -1,17 +1,16 @@
-'use client';
-import React, { FC } from 'react';
+import React from 'react';
 import VideoPlayer from '@/app/components/videoPlayer';
 import VideoTitle from '@/app/components/videoTitle';
 import BackButton from '@/app/components/backButton';
 
 interface VideoPageProps {
-  params: {
+  params: Promise<{
     video: string;
-  };
+  }>;
 }
 
-const VideoPage: FC<VideoPageProps> = ({ params }) => {
-  const { video } = params;
+const VideoPage: React.FC<VideoPageProps> = async ({ params }) => {
+  const { video } = await params;
 
   return (
     <>

@@ -2,6 +2,12 @@ declare module '*.mp4' {
     const src: string;
     export default src;
   }
+
+declare module "*.css" {
+  const content: Record<string, string>;
+  export default content;
+}
+
 declare interface ThumbnailData {
   start_time: string;
   duration: string;

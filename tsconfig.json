@@ -11,10 +11,10 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -26,13 +26,16 @@
         "./src/*"
       ]
     },
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "target": "ES2017"
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "src/utils/convertMP4toGIF.js"  ],
+    ".next/types/**/*.ts",
+    "src/utils/convertMP4toGIF.js",
+    ".next/dev/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
