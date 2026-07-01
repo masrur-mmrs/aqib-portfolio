@@ -31,11 +31,11 @@ const getIcon = (key: string) => {
 
 const CustomFooter: React.FC = async ({}) => {
     const socials = await getSocialMediaLinks() as Socials;
-    const profileData = await getProfileData();
+    const profileData = await getProfileData() as UserData;
     const logo = await getLogo();
 
     return (
-    <Footer container className="bg-[--background] mt-5">
+    <Footer container className="mt-5" style={{backgroundColor: profileData?.backgroundColor ?? '#000000'}}>
       <div className="w-full text-[--foreground]">
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
           <div>

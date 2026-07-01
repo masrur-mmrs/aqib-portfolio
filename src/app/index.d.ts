@@ -24,6 +24,7 @@ declare interface UserData {
   name: string;
   subtitle: string;
   description: string;
+  backgroundColor?: string;
 }
 
 declare interface Socials {
